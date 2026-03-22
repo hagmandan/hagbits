@@ -6,6 +6,9 @@ import { questions, Answers } from '@/lib/questions';
 import QuizCard from '@/components/QuizCard';
 import RankingCard from '@/components/RankingCard';
 import ProgressBar from '@/components/ProgressBar';
+import { useAnonymousAuth } from '@/hooks/useAnonymousAuth';
+import { getFirebaseAnalytics } from '@/lib/analytics';
+import { logEvent } from 'firebase/analytics';
 
 type TransitionState = 'idle' | 'exiting' | 'entering';
 
@@ -18,6 +21,7 @@ const categoryBg: Record<string, string> = {
 
 export default function QuizPage() {
   const router = useRouter();
+  const uid = useAnonymousAuth();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [transition, setTransition] = useState<TransitionState>('idle');
@@ -40,9 +44,11 @@ export default function QuizPage() {
           const res = await fetch('/api/responses', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ answers: newAnswers }),
+            body: JSON.stringify({ answers: newAnswers, uid }),
           });
           const data = await res.json();
+          const analytics = getFirebaseAnalytics();
+          if (analytics) logEvent(analytics, 'quiz_completed', { personality_label: data.personality_label });
           router.push(`/results/${data.id}`);
         } catch {
           setSubmitting(false);

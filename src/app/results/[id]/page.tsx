@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import sql from '@/lib/db';
+import { db } from '@/lib/firebase-admin';
 import PersonalityCard from '@/components/PersonalityCard';
 import ScoreBar from '@/components/ScoreBar';
 import { getCategoryTips, CategoryScores } from '@/lib/scoring';
@@ -8,7 +8,8 @@ import { categoryLabels } from '@/lib/questions';
 
 interface ResultRow {
   id: string;
-  created_at: string;
+  uid: string;
+  created_at: unknown;
   answers: Record<string, number>;
   sleep_score: number;
   screen_score: number;
@@ -21,10 +22,10 @@ interface ResultRow {
 export default async function ResultsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  const rows = await sql`SELECT * FROM quiz_responses WHERE id = ${id}`;
-  if (rows.length === 0) notFound();
+  const doc = await db.collection('quiz_responses').doc(id).get();
+  if (!doc.exists) notFound();
 
-  const result = rows[0] as ResultRow;
+  const result = { id: doc.id, ...doc.data() } as ResultRow;
 
   const scores: CategoryScores = {
     sleep_score: result.sleep_score,
