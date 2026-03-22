@@ -1,6 +1,6 @@
 # Contributing to Hagbits
 
-Thanks for your interest! Hagbits is a personal project by Dan Hagman, but thoughtful contributions are welcome.
+Thanks for your interest! Hagbits is a personal project, but thoughtful contributions are welcome.
 
 ## Before you start
 

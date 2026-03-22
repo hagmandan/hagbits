@@ -1,6 +1,6 @@
 # Hagbits
 
-**Hagbits** is an anonymous lifestyle quiz app for teens, built by Dan "Hags" Hagman.
+**Hagbits** is an anonymous lifestyle quiz app for teens.
 
 The name is a triple pun: it combines *Hags* (Dan's nickname), *habits* (what the app is about), and the idea of "healthy and good bits" — small, honest checkpoints on how you're actually living.
 
