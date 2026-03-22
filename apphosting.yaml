@@ -1,0 +1,26 @@
+runConfig:
+  runtime: nodejs20
+  concurrency: 80
+
+env:
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: "AIzaSyD_iuU6ucz_VvDiU_Ly7i0xdCw07AXB-6w"
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: "hagbits-2b1ef.firebaseapp.com"
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: "hagbits-2b1ef"
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: "hagbits-2b1ef.firebasestorage.app"
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "694446560709"
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: "1:694446560709:web:f89603b9f2ea1e5ca1a7ac"
+  - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+    value: "G-ESN6D5CMFM"
+  - variable: FIREBASE_PROJECT_ID
+    secret: firebase-project-id
+  - variable: FIREBASE_CLIENT_EMAIL
+    secret: firebase-client-email
+  - variable: FIREBASE_PRIVATE_KEY
+    secret: firebase-private-key
+

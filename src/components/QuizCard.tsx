@@ -1,6 +1,16 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Question } from '@/lib/questions';
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 interface QuizCardProps {
   question: Question;
@@ -24,10 +34,13 @@ const categoryHover: Record<string, string> = {
 export default function QuizCard({ question, onAnswer }: QuizCardProps) {
   const baseCard = categoryColors[question.category] ?? 'bg-slate-50 border-slate-200';
   const hoverCard = categoryHover[question.category] ?? 'hover:bg-slate-100';
+  // Start with original order (matches SSR), shuffle after hydration
+  const [shuffledOptions, setShuffledOptions] = useState(question.options);
+  useEffect(() => { setShuffledOptions(shuffle(question.options)); }, []);
 
   return (
     <div className="flex flex-col gap-3">
-      {question.options.map((option, i) => (
+      {shuffledOptions.map((option, i) => (
         <button
           key={i}
           onClick={() => onAnswer(option.score)}
