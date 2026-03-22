@@ -19,7 +19,7 @@ export interface PersonalityInfo {
 }
 
 export function computeRankedScore(selectedIndices: number[], question: Question): number {
-  const rankCount = question.rankCount ?? 5;
+  const rankCount = question.rankCount ?? 3;
   const maxPossible = rankCount * (rankCount + 1) / 2;
   let weightedSum = 0;
   selectedIndices.forEach((optionIdx, position) => {

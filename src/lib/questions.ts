@@ -61,7 +61,7 @@ export const questions: Question[] = [
     id: 'sleep_4',
     category: 'sleep',
     type: 'ranked',
-    rankCount: 5,
+    rankCount: 3,
     text: "How do you actually wind down before sleep? Rank most to least like you:",
     options: [
       { label: "Scroll until I pass out", score: 0 },
@@ -77,7 +77,7 @@ export const questions: Question[] = [
     id: 'screen_1',
     category: 'screen',
     type: 'ranked',
-    rankCount: 5,
+    rankCount: 3,
     text: "You're stuck waiting — store, appointment, car ride. Rank what you actually do:",
     options: [
       { label: "Scroll social feeds", score: 0 },
@@ -104,7 +104,7 @@ export const questions: Question[] = [
     id: 'screen_3',
     category: 'screen',
     type: 'ranked',
-    rankCount: 6,
+    rankCount: 3,
     text: "Think about a typical morning. Rank these in the order they actually happen:",
     options: [
       { label: "Check socials or scroll", score: 0 },
@@ -119,7 +119,7 @@ export const questions: Question[] = [
     id: 'screen_4',
     category: 'screen',
     type: 'ranked',
-    rankCount: 5,
+    rankCount: 3,
     text: "Last thing before you actually fall asleep — rank most to least likely:",
     options: [
       { label: "Scroll until I pass out", score: 0 },
@@ -135,7 +135,7 @@ export const questions: Question[] = [
     id: 'diet_1',
     category: 'diet',
     type: 'ranked',
-    rankCount: 5,
+    rankCount: 3,
     text: "Afternoon slump hits. Rank what you actually reach for, most to least:",
     options: [
       { label: "Energy drink", score: 0 },
@@ -161,7 +161,7 @@ export const questions: Question[] = [
     id: 'diet_3',
     category: 'diet',
     type: 'ranked',
-    rankCount: 5,
+    rankCount: 3,
     text: "Rank your go-to drinks throughout the day — most to least:",
     options: [
       { label: "Energy drink", score: 0 },
@@ -201,7 +201,7 @@ export const questions: Question[] = [
     id: 'activity_2',
     category: 'activity',
     type: 'ranked',
-    rankCount: 5,
+    rankCount: 3,
     text: "You've been sitting for a while. Rank what actually happens next:",
     options: [
       { label: "Keep sitting, grab my phone", score: 0 },
@@ -215,7 +215,7 @@ export const questions: Question[] = [
     id: 'activity_3',
     category: 'activity',
     type: 'ranked',
-    rankCount: 6,
+    rankCount: 3,
     text: "Free afternoon — no homework, no obligations. Rank how you spend it:",
     options: [
       { label: "Stream / binge content", score: 0 },
