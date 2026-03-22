@@ -17,10 +17,9 @@ env:
     value: "1:694446560709:web:f89603b9f2ea1e5ca1a7ac"
   - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
     value: "G-ESN6D5CMFM"
-  - variable: FIREBASE_PROJECT_ID
-    secret: firebase-project-id
-  - variable: FIREBASE_CLIENT_EMAIL
-    secret: firebase-client-email
-  - variable: FIREBASE_PRIVATE_KEY
-    secret: firebase-private-key
-
+  - variable: FB_PROJECT_ID
+    secret: fb-project-id
+  - variable: FB_CLIENT_EMAIL
+    secret: fb-client-email
+  - variable: FB_PRIVATE_KEY
+    secret: fb-private-key
