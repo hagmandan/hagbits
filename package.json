@@ -1,14 +1,28 @@
 {
-  "name": "habit-check",
+  "name": "hagbits",
   "version": "0.1.0",
+  "description": "A habit check quiz app for teens built with Next.js, Neon, and Tailwind",
+  "author": "Dan Hagman <hagman.dan@gmail.com>",
+  "license": "MIT",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hagmandan/hagbits.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
+    "dev-https": "next dev --experimental-https",
+    "devs": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "lucide-react": "^0.577.0",
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4"
