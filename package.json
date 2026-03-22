@@ -5,6 +5,7 @@
   "author": "Dan Hagman <hagman.dan@gmail.com>",
   "license": "MIT",
   "private": true,
+  "packageManager": "yarn@4.13.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/hagmandan/hagbits.git"
