@@ -93,8 +93,18 @@ export default function QuizPage() {
       {/* Main content */}
       <div className="pt-14 max-w-5xl mx-auto px-6 min-h-screen">
         <div
-          className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[calc(100vh-56px)] ${transitionClass}`}
+          className={`relative grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[calc(100vh-56px)] ${transitionClass}`}
         >
+          {/* Watermark emoji */}
+          {question.emoji && (
+            <span
+              className="absolute bottom-4 right-4 text-[14rem] leading-none opacity-[0.07] select-none pointer-events-none"
+              aria-hidden="true"
+            >
+              {question.emoji}
+            </span>
+          )}
+
           {/* Left column: question */}
           <div className="flex flex-col justify-center gap-4 py-8 lg:py-0">
             <div className="text-sm font-mono text-slate-400 tracking-wide">
@@ -103,8 +113,13 @@ export default function QuizPage() {
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-800 leading-tight">
               {question.text}
             </h2>
-            {question.blurb && (
-              <p className="text-slate-500 text-base leading-relaxed">{question.blurb}</p>
+            {question.blurb ? (
+              <p className="text-slate-500 text-base leading-relaxed">
+                {question.emoji && <span className="mr-1.5">{question.emoji}</span>}
+                {question.blurb}
+              </p>
+            ) : question.emoji && (
+              <span className="text-2xl">{question.emoji}</span>
             )}
           </div>
 

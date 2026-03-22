@@ -116,27 +116,61 @@ export default function Home() {
 
       {/* Main content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
-        <div className="max-w-md w-full text-center space-y-8">
+        <div className="max-w-md w-full text-center space-y-6">
 
-          <div className="space-y-4">
-            <div className="text-6xl">🔮</div>
-            <h1 className="text-4xl font-bold text-slate-800 leading-tight">
-              What&apos;s your <span className="text-violet-500">vibe</span>?
+          {/* Brand lockup */}
+          <div className="space-y-2">
+            <h1 className="font-black tracking-tight text-7xl lg:text-8xl text-violet-600 leading-none">
+              {'hagbits'.split('').map((char, i) => (
+                <span
+                  key={i}
+                  className="inline-block animate-badge-pop"
+                  style={{ animationDelay: `${i * 75}ms` }}
+                >
+                  {char}
+                </span>
+              ))}
             </h1>
-            <p className="text-slate-500 text-lg leading-relaxed">
-              16 questions across sleep, screen time, diet, and activity.
-              No health lecture — just find out what kind of era you&apos;re in.
-            </p>
+            <div className="flex justify-center flex-wrap gap-x-1.5 text-xs tracking-[0.18em] uppercase font-semibold text-slate-400">
+              {'Healthy and Good Habits'.split(' ').map((word, i) => (
+                <span
+                  key={i}
+                  className="inline-block animate-fade-in-up"
+                  style={{ animationDelay: `${560 + i * 80}ms` }}
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <Link
-            href="/quiz"
-            className="inline-block w-full bg-violet-500 hover:bg-violet-600 active:scale-95 text-white font-bold text-lg py-4 rounded-2xl shadow-md shadow-violet-200 transition-all duration-150"
+          {/* Find your vibe card */}
+          <div
+            className="bg-white/70 backdrop-blur-sm rounded-3xl p-7 shadow-sm border border-white/50 space-y-5 animate-fade-in-up"
+            style={{ animationDelay: '350ms' }}
           >
-            Find out your vibe →
-          </Link>
+            <div className="text-5xl">🔮</div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold text-slate-800 leading-tight">
+                What&apos;s your <span className="text-violet-500">vibe</span>?
+              </h2>
+              <p className="text-slate-500 text-base leading-relaxed">
+                16 questions across sleep, screen time, diet, and activity.
+                No health lecture — just find out what kind of era you&apos;re in.
+              </p>
+            </div>
+            <Link
+              href="/quiz"
+              className="inline-block w-full bg-violet-500 hover:bg-violet-600 active:scale-95 text-white font-bold text-lg py-4 rounded-2xl shadow-md shadow-violet-200 transition-all duration-150"
+            >
+              Find out your vibe →
+            </Link>
+          </div>
 
-          <div className="flex justify-center gap-6 text-sm text-slate-400">
+          <div
+            className="flex justify-center gap-6 text-sm text-slate-400 animate-fade-in-up"
+            style={{ animationDelay: '700ms' }}
+          >
             <span>✦ 16 questions</span>
             <span>✦ ~2 min</span>
             <span>✦ No sign up</span>
