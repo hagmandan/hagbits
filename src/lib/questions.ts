@@ -74,8 +74,10 @@ export const questions: Question[] = [
       { label: "Pick up my phone and start scrolling", score: 0 },
       { label: "Put on a show or video to watch", score: 0.2 },
       { label: "Listen to music or have something on", score: 0.5 },
+      { label: "Take melatonin or a sleep supplement", score: 0.7 },
       { label: "Try breathing or just lying still", score: 0.8 },
       { label: "I usually fall asleep pretty easily", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
 
@@ -93,6 +95,7 @@ export const questions: Question[] = [
       { label: "Play a mobile game", score: 0.4 },
       { label: "Put on music, a podcast, or an audiobook", score: 0.7 },
       { label: "Just... sit with it. Look around.", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
   {
@@ -122,6 +125,7 @@ export const questions: Question[] = [
       { label: "Eat something", score: 0.8 },
       { label: "Drink water", score: 0.9 },
       { label: "Stretch or move", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
   {
@@ -134,8 +138,9 @@ export const questions: Question[] = [
       { label: "Scroll until I pass out mid-video", score: 0 },
       { label: "Put on something to fall asleep to", score: 0.2 },
       { label: "Scroll a little, then make myself stop", score: 0.5 },
-      { label: "Read, journal, or listen to something", score: 0.8 },
+      { label: "Read, journal, pray, or wind down intentionally", score: 0.8 },
       { label: "Phone's already put away before bed", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
 
@@ -153,6 +158,7 @@ export const questions: Question[] = [
       { label: "Mix of okay and not-so-okay", score: 0.5 },
       { label: "Home-cooked or reasonably balanced", score: 0.8 },
       { label: "Fruits, veg, whole foods made an appearance", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
   {
@@ -182,6 +188,7 @@ export const questions: Question[] = [
       { label: "Coffee or tea (black / minimal sugar)", score: 0.7 },
       { label: "Milk, sparkling water, or something else", score: 0.8 },
       { label: "Water — just water", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
   {
@@ -211,9 +218,11 @@ export const questions: Question[] = [
       { label: "I don't really move unless I have to", score: 0 },
       { label: "Walking to get somewhere (school, store, etc.)", score: 0.3 },
       { label: "Casual stuff — bike ride, shooting hoops, etc.", score: 0.7 },
+      { label: "Yoga, dance, or a mind-body thing", score: 0.9 },
       { label: "Solo sport (running, skating, swimming, etc.)", score: 0.9 },
       { label: "Team sport or group fitness", score: 1 },
       { label: "Gym, weights, or working out", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
   {
@@ -229,6 +238,7 @@ export const questions: Question[] = [
       { label: "Get up, get something, sit straight back down", score: 0.5 },
       { label: "Walk around for a few minutes", score: 0.8 },
       { label: "Stretch out or do something active", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
   {
@@ -241,9 +251,11 @@ export const questions: Question[] = [
       { label: "Netflix/YouTube binge", score: 0 },
       { label: "TikTok / Reels / short video scroll", score: 0 },
       { label: "Gaming online", score: 0.3 },
+      { label: "Read, cook, or something offline and low-key", score: 0.6 },
       { label: "Hang with friends IRL", score: 0.8 },
       { label: "Creative hobby (art, music, writing, etc.)", score: 0.9 },
       { label: "Go outside — walk, run, sport, whatever", score: 1 },
+      { label: "Mine's different — not really on this list", score: 0.5 },
     ],
   },
   {
