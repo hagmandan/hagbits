@@ -1,91 +1,154 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Question } from '@/lib/questions';
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 interface RankingCardProps {
   question: Question;
   onComplete: (indices: number[]) => void;
 }
 
-const categoryColors: Record<string, { base: string; selected: string; badge: string }> = {
+const categoryColors: Record<string, {
+  pool: string;
+  ranked: string;
+  number: string;
+  remove: string;
+}> = {
   sleep: {
-    base: 'bg-indigo-50 border-indigo-200 text-indigo-800',
-    selected: 'bg-indigo-200 border-indigo-500 text-indigo-900',
-    badge: 'bg-indigo-500 text-white',
+    pool: 'bg-indigo-50 border-indigo-200 text-indigo-800 hover:bg-indigo-100 hover:border-indigo-400 active:scale-95',
+    ranked: 'bg-white border-indigo-200 text-indigo-900',
+    number: 'bg-indigo-500 text-white',
+    remove: 'hover:bg-indigo-100 text-indigo-300 hover:text-indigo-600',
   },
   screen: {
-    base: 'bg-sky-50 border-sky-200 text-sky-800',
-    selected: 'bg-sky-200 border-sky-500 text-sky-900',
-    badge: 'bg-sky-500 text-white',
+    pool: 'bg-sky-50 border-sky-200 text-sky-800 hover:bg-sky-100 hover:border-sky-400 active:scale-95',
+    ranked: 'bg-white border-sky-200 text-sky-900',
+    number: 'bg-sky-500 text-white',
+    remove: 'hover:bg-sky-100 text-sky-300 hover:text-sky-600',
   },
   diet: {
-    base: 'bg-emerald-50 border-emerald-200 text-emerald-800',
-    selected: 'bg-emerald-200 border-emerald-500 text-emerald-900',
-    badge: 'bg-emerald-500 text-white',
+    pool: 'bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100 hover:border-emerald-400 active:scale-95',
+    ranked: 'bg-white border-emerald-200 text-emerald-900',
+    number: 'bg-emerald-500 text-white',
+    remove: 'hover:bg-emerald-100 text-emerald-300 hover:text-emerald-600',
   },
   activity: {
-    base: 'bg-orange-50 border-orange-200 text-orange-800',
-    selected: 'bg-orange-200 border-orange-500 text-orange-900',
-    badge: 'bg-orange-500 text-white',
+    pool: 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-100 hover:border-orange-400 active:scale-95',
+    ranked: 'bg-white border-orange-200 text-orange-900',
+    number: 'bg-orange-500 text-white',
+    remove: 'hover:bg-orange-100 text-orange-300 hover:text-orange-600',
   },
 };
 
 export default function RankingCard({ question, onComplete }: RankingCardProps) {
-  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
-  const rankCount = question.rankCount ?? 5;
-  const colors = categoryColors[question.category] ?? categoryColors.sleep;
-  const isFull = selectedIndices.length >= rankCount;
+  // Start with original order (matches SSR), shuffle after hydration.
+  // Each entry carries its originalIndex so scoring is unaffected by display order.
+  const withIndices = question.options.map((opt, originalIndex) => ({ ...opt, originalIndex }));
+  const [shuffled, setShuffled] = useState(withIndices);
+  useEffect(() => { setShuffled(shuffle(withIndices)); }, []);
 
-  function toggleOption(i: number) {
-    const pos = selectedIndices.indexOf(i);
-    if (pos !== -1) {
-      setSelectedIndices(selectedIndices.filter((_, idx) => idx !== pos));
-    } else if (!isFull) {
-      setSelectedIndices([...selectedIndices, i]);
+  const [ranked, setRanked] = useState<number[]>([]); // indices into `shuffled`
+  const rankCount = question.rankCount ?? question.options.length;
+  const colors = categoryColors[question.category] ?? categoryColors.sleep;
+
+  const unranked = shuffled
+    .map((_, i) => i)
+    .filter((i) => !ranked.includes(i));
+
+  function addToRanking(i: number) {
+    if (ranked.length < rankCount) {
+      setRanked([...ranked, i]);
     }
   }
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="overflow-y-auto max-h-[60vh]">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {question.options.map((option, i) => {
-            const rank = selectedIndices.indexOf(i);
-            const isSelected = rank !== -1;
-            const isDisabled = isFull && !isSelected;
+  function removeFromRanking(pos: number) {
+    setRanked(ranked.filter((_, idx) => idx !== pos));
+  }
 
-            return (
-              <button
-                key={i}
-                onClick={() => toggleOption(i)}
-                disabled={isDisabled}
-                className={`relative rounded-xl border-2 px-3 py-2.5 text-sm font-medium transition-all text-left
-                  ${isSelected ? colors.selected : colors.base}
-                  ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+  const isFull = ranked.length === rankCount;
+
+  return (
+    <div className="flex flex-col gap-5">
+      {/* Ranked list */}
+      <div className="flex flex-col gap-2">
+        <div className="flex items-baseline gap-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+            Your ranking
+          </p>
+          <span className="text-xs text-slate-300 font-mono">
+            {ranked.length}/{rankCount}
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          {ranked.length === 0 ? (
+            <div className="rounded-xl border-2 border-dashed border-slate-200 px-4 py-3 text-sm text-slate-400">
+              Tap an option below to start ranking
+            </div>
+          ) : (
+            ranked.map((shuffledIdx, pos) => (
+              <div
+                key={shuffledIdx}
+                className={`flex items-center gap-3 rounded-xl border-2 px-3 py-2.5 animate-rank-item-in ${colors.ranked}`}
               >
-                {option.label}
-                {isSelected && (
-                  <span
-                    className={`absolute -top-2 -right-2 w-5 h-5 rounded-full text-xs flex items-center justify-center animate-badge-pop ${colors.badge}`}
-                  >
-                    {rank + 1}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+                <span
+                  className={`shrink-0 w-6 h-6 rounded-full text-xs flex items-center justify-center font-bold ${colors.number}`}
+                >
+                  {pos + 1}
+                </span>
+                <span className="flex-1 text-sm font-medium">
+                  {shuffled[shuffledIdx].label}
+                </span>
+                <button
+                  onClick={() => removeFromRanking(pos)}
+                  className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-base leading-none transition-all cursor-pointer ${colors.remove}`}
+                  aria-label="Remove"
+                >
+                  ×
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
-      {selectedIndices.length === rankCount && (
-        <div className="sticky bottom-4">
-          <button
-            onClick={() => onComplete(selectedIndices)}
-            className="w-full py-3 rounded-2xl bg-violet-500 text-white font-semibold text-base hover:bg-violet-600 active:scale-95 transition-all cursor-pointer"
-          >
-            Continue
-          </button>
+
+      {/* Pool */}
+      {!isFull && (
+        <div className="flex flex-col gap-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+            Tap to add
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {unranked.map((i) => (
+              <button
+                key={i}
+                onClick={() => addToRanking(i)}
+                className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition-all cursor-pointer ${colors.pool}`}
+              >
+                {shuffled[i].label}
+              </button>
+            ))}
+          </div>
         </div>
+      )}
+
+      {/* Continue */}
+      {isFull && (
+        <button
+          onClick={() => onComplete(ranked.map((shuffledIdx) => shuffled[shuffledIdx].originalIndex))}
+          className="w-full py-3 rounded-2xl bg-violet-500 text-white font-semibold text-base hover:bg-violet-600 active:scale-95 transition-all cursor-pointer"
+        >
+          Continue
+        </button>
       )}
     </div>
   );
