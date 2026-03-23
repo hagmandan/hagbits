@@ -14,6 +14,7 @@ export interface Question {
   type: 'single' | 'ranked';
   text: string;
   blurb?: string;
+  emoji?: string;
   rankCount?: number;
   options: Option[];
 }
@@ -24,6 +25,7 @@ export const questions: Question[] = [
     id: 'sleep_1',
     category: 'sleep',
     type: 'single',
+    emoji: '🌙',
     text: "What time does your phone screen usually go dark for the night?",
     options: [
       { label: "Still on when I fall asleep", score: 0 },
@@ -38,6 +40,7 @@ export const questions: Question[] = [
     id: 'sleep_2',
     category: 'sleep',
     type: 'single',
+    emoji: '⏰',
     text: "How many alarms do you set to actually get up?",
     options: [
       { label: "I don't even bother anymore", score: 0 },
@@ -52,6 +55,7 @@ export const questions: Question[] = [
     id: 'sleep_3',
     category: 'sleep',
     type: 'single',
+    emoji: '😴',
     text: "Be real — how often do you wake up actually feeling refreshed?",
     blurb: "Not 'functional.' Actually rested.",
     options: [
@@ -67,6 +71,7 @@ export const questions: Question[] = [
     id: 'sleep_4',
     category: 'sleep',
     type: 'ranked',
+    emoji: '💤',
     rankCount: 3,
     text: "When you can't fall asleep, what do you actually do? Rank most to least likely:",
     blurb: "Be honest — what really happens when your brain won't quit.",
@@ -86,6 +91,7 @@ export const questions: Question[] = [
     id: 'screen_1',
     category: 'screen',
     type: 'ranked',
+    emoji: '📱',
     rankCount: 3,
     text: "You're stuck waiting somewhere — store, appointment, car ride. What do you actually do?",
     blurb: "Rank most to least like you.",
@@ -102,6 +108,7 @@ export const questions: Question[] = [
     id: 'screen_2',
     category: 'screen',
     type: 'single',
+    emoji: '⏳',
     text: "You open an app 'real quick.' Next time you look up, how long has it been?",
     options: [
       { label: "I genuinely don't know — time stops", score: 0 },
@@ -116,6 +123,7 @@ export const questions: Question[] = [
     id: 'screen_3',
     category: 'screen',
     type: 'ranked',
+    emoji: '🌅',
     rankCount: 3,
     text: "Think about a typical morning. Rank these in the order they actually happen:",
     options: [
@@ -132,6 +140,7 @@ export const questions: Question[] = [
     id: 'screen_4',
     category: 'screen',
     type: 'ranked',
+    emoji: '🛏️',
     rankCount: 3,
     text: "Last thing before you actually fall asleep — rank what's most like you:",
     options: [
@@ -149,6 +158,7 @@ export const questions: Question[] = [
     id: 'diet_1',
     category: 'diet',
     type: 'ranked',
+    emoji: '🍽️',
     rankCount: 3,
     text: "Picture what you actually ate yesterday. Rank which best describes your meals:",
     blurb: "Pick the 3 that most match your day, best to worst fit.",
@@ -165,6 +175,7 @@ export const questions: Question[] = [
     id: 'diet_2',
     category: 'diet',
     type: 'single',
+    emoji: '🍴',
     text: "Your usual eating pattern could best be described as...",
     options: [
       { label: "I forget to eat for most of the day", score: 0 },
@@ -179,6 +190,7 @@ export const questions: Question[] = [
     id: 'diet_3',
     category: 'diet',
     type: 'ranked',
+    emoji: '💧',
     rankCount: 3,
     text: "What are you actually drinking throughout the day? Rank most to least:",
     options: [
@@ -195,6 +207,7 @@ export const questions: Question[] = [
     id: 'diet_4',
     category: 'diet',
     type: 'single',
+    emoji: '🥗',
     text: "Quick: how many actual meals did you eat yesterday?",
     blurb: "Snacks don't count. A handful of chips is not a meal.",
     options: [
@@ -212,6 +225,7 @@ export const questions: Question[] = [
     id: 'activity_1',
     category: 'activity',
     type: 'ranked',
+    emoji: '🏃',
     rankCount: 3,
     text: "When you do move around, what does that usually look like? Rank most to least like you:",
     options: [
@@ -229,6 +243,7 @@ export const questions: Question[] = [
     id: 'activity_2',
     category: 'activity',
     type: 'ranked',
+    emoji: '🪑',
     rankCount: 3,
     text: "You've been sitting for a while. What actually happens next?",
     blurb: "Rank most to least like you.",
@@ -245,6 +260,7 @@ export const questions: Question[] = [
     id: 'activity_3',
     category: 'activity',
     type: 'ranked',
+    emoji: '☀️',
     rankCount: 3,
     text: "Free afternoon — no school, no obligations, no one bugging you. How do you actually spend it?",
     options: [
@@ -262,6 +278,7 @@ export const questions: Question[] = [
     id: 'activity_4',
     category: 'activity',
     type: 'single',
+    emoji: '⚡',
     text: "How often do you actually feel physically energized — like your body has juice?",
     blurb: "Not caffeinated. Naturally have energy.",
     options: [
