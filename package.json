@@ -24,6 +24,8 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
+    "@nivo/core": "^0.99.0",
+    "@nivo/radar": "^0.99.0",
     "firebase": "^12.11.0",
     "firebase-admin": "^13.7.0",
     "lucide-react": "^0.577.0",
