@@ -22,7 +22,7 @@ export default function ArchetypeCard({ archetypeRanked, scores }: ArchetypeCard
       {/* Combo headline */}
       <div className="px-8 pt-8 pb-6 text-center">
         <div className="text-xs font-semibold uppercase tracking-widest text-violet-500 mb-2">
-          Your vibe mix
+          Your HagBit
         </div>
         <div className="text-4xl mb-2">{result.comboEmoji}</div>
         <h1 className="text-2xl font-bold text-slate-800">{result.comboLabel}</h1>

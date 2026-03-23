@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Habit Check — What's your vibe?",
-  description: "A 16-question quiz to find out what kind of lifestyle era you're in.",
+  title: "hagbits — What's your HagBit?",
+  description: "16 questions across sleep, screens, food, and movement. Find out what your habits say about you.",
 };
 
 export default function RootLayout({

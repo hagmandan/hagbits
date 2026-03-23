@@ -67,7 +67,7 @@ export default function QuizPage() {
       <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-50 to-pink-50">
         <div className="text-center">
           <div className="text-4xl mb-4 animate-bounce">✨</div>
-          <p className="text-slate-600 font-medium">Calculating your vibe...</p>
+          <p className="text-slate-600 font-medium">Calculating your HagBit...</p>
         </div>
       </main>
     );

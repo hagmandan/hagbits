@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { db } from '@/lib/firebase-admin';
 import ArchetypeCard from '@/components/ArchetypeCard';
 import ScoreBar from '@/components/ScoreBar';
-import { getCategoryTips, CategoryScores, ArchetypeKey } from '@/lib/scoring';
+import { getCategoryTips, getPillarInsights, CategoryScores, ArchetypeKey } from '@/lib/scoring';
 import { categoryLabels } from '@/lib/questions';
 
 interface ResultRow {
@@ -36,6 +36,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
 
   const archetypeRanked = JSON.parse(result.archetype_ranked) as [ArchetypeKey, ArchetypeKey, ArchetypeKey];
   const tips = getCategoryTips(scores);
+  const pillars = getPillarInsights(scores);
 
   const scoreRows = [
     { key: 'sleep', label: categoryLabels.sleep, score: result.sleep_score },
@@ -98,6 +99,23 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
           </div>
 
         </div>
+
+        {/* Pillar grid */}
+        <div className="mt-6 grid grid-cols-2 gap-4">
+          {pillars.map((p) => (
+            <div key={p.name} className="bg-white rounded-3xl shadow-sm p-5 space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">{p.emoji}</span>
+                <span className="font-semibold text-slate-700 capitalize">{p.name}</span>
+                <span className="ml-auto text-xs bg-violet-100 text-violet-700 rounded-full px-2 py-0.5 shrink-0">
+                  {p.tag}
+                </span>
+              </div>
+              <p className="text-slate-500 text-sm leading-relaxed">{p.insight}</p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </main>
   );
