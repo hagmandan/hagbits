@@ -339,6 +339,93 @@ export function getCategoryTips(scores: CategoryScores): CategoryTip[] {
   ];
 }
 
+// ---------------------------------------------------------------------------
+// Pillars — cross-category meta-layer
+// ---------------------------------------------------------------------------
+
+export interface PillarInsight {
+  name: 'rest' | 'learn' | 'grow' | 'play';
+  emoji: string;
+  tag: string;
+  insight: string;
+}
+
+type PillarState = 'both' | 'aOnly' | 'bOnly' | 'neither';
+
+function pillarState(aScore: number, bScore: number): PillarState {
+  const a = aScore >= 8, b = bScore >= 8;
+  if (a && b)  return 'both';
+  if (a && !b) return 'aOnly';
+  if (!a && b) return 'bOnly';
+  return 'neither';
+}
+
+const PILLAR_DATA: Array<{
+  name: PillarInsight['name'];
+  emoji: string;
+  aKey: keyof CategoryScores;
+  bKey: keyof CategoryScores;
+  states: Record<PillarState, { tag: string; insight: string }>;
+}> = [
+  {
+    name: 'rest',
+    emoji: '🌙',
+    aKey: 'sleep_score',
+    bKey: 'screen_score',
+    states: {
+      both:    { tag: 'Locked in',    insight: "Your sleep is protected and your screen habits aren't blowing it up. You're actually recovering — that's not a given for most people your age." },
+      aOnly:   { tag: 'Fragile',      insight: "Your sleep is decent but screen time is chipping away at the edges. The late-night scrolling is costing you more than you realize." },
+      bOnly:   { tag: 'Half-built',   insight: "You're not glued to your phone all night — right instinct — but sleep still isn't clicking. The problem probably isn't screens anymore." },
+      neither: { tag: 'Running dry',  insight: "Late nights, phone in hand, not really resting. Even one change (phone out of reach at bedtime) compounds fast." },
+    },
+  },
+  {
+    name: 'learn',
+    emoji: '🧠',
+    aKey: 'screen_score',
+    bKey: 'sleep_score',
+    states: {
+      both:    { tag: 'Switched on',   insight: "You're consuming intentionally and giving your brain time to process it. Sleep is when memory consolidates — you're getting both sides of the loop." },
+      aOnly:   { tag: 'Input only',    insight: "You're selective about what goes in your head, but skimping on sleep means your brain never finishes processing it. Taking notes you never read back." },
+      bOnly:   { tag: 'Sleeping on it', insight: "Your brain is getting the recovery it needs — but mostly from passive scrolling. More intentional input would make the sleep work harder." },
+      neither: { tag: 'Signal lost',   insight: "High passive screen time plus low sleep is a focus-killer. Overstimulated and underrested. Put the phone down 30 min earlier — clarity follows within days." },
+    },
+  },
+  {
+    name: 'grow',
+    emoji: '🌱',
+    aKey: 'diet_score',
+    bKey: 'activity_score',
+    states: {
+      both:    { tag: 'Fully loaded',       insight: "You're fueling right and actually using your body. That combo is rare — more stable energy, better mood, faster recovery. Keep the loop going." },
+      aOnly:   { tag: 'Idling',             insight: "You're eating well — the raw materials are there — but without movement a lot of that potential just sits. Even 20 minutes a day unlocks what good food is actually for." },
+      bOnly:   { tag: 'Running on fumes',   insight: "You're moving but not fueling the effort properly. Your body is working hard on not enough. Consistent eating would make your active days feel noticeably different." },
+      neither: { tag: 'Needs a jumpstart',  insight: "Start with one meal. Seriously — just eat breakfast. Energy follows, and movement follows from that." },
+    },
+  },
+  {
+    name: 'play',
+    emoji: '🎯',
+    aKey: 'activity_score',
+    bKey: 'screen_score',
+    states: {
+      both:    { tag: 'Best of both',         insight: "You're moving AND being intentional about your downtime. You know how to actually enjoy yourself without defaulting to the scroll. Real skill." },
+      aOnly:   { tag: 'In the body',          insight: "You're physically active — W — but downtime probably leans heavy on passive screens. The activity is real. The rest of 'play' could be more varied." },
+      bOnly:   { tag: 'Low-key intentional',  insight: "Not glued to your phone in free time, but not moving much either. Your body would appreciate being invited to the party." },
+      neither: { tag: 'On pause',             insight: "Most free time is passive screen time with not much movement. Both get worse the less you do. Pick one thing you enjoy that isn't on a screen." },
+    },
+  },
+];
+
+export function getPillarInsights(scores: CategoryScores): PillarInsight[] {
+  return PILLAR_DATA.map(({ name, emoji, aKey, bKey, states }) => {
+    const state = pillarState(scores[aKey], scores[bKey]);
+    return { name, emoji, ...states[state] };
+  });
+}
+
+// ---------------------------------------------------------------------------
+
 function getTip(category: Category, score: number): string {
   const tips: Record<Category, Record<string, string>> = {
     sleep: {

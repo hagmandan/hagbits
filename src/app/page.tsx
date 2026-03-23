@@ -144,7 +144,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Find your vibe card */}
+          {/* HagBit card */}
           <div
             className="bg-white/70 backdrop-blur-sm rounded-3xl p-7 shadow-sm border border-white/50 space-y-5 animate-fade-in-up"
             style={{ animationDelay: '350ms' }}
@@ -152,28 +152,28 @@ export default function Home() {
             <div className="text-5xl">🔮</div>
             <div className="space-y-2">
               <h2 className="text-2xl font-bold text-slate-800 leading-tight">
-                What&apos;s your <span className="text-violet-500">vibe</span>?
+                What&apos;s your <span className="text-violet-500">HagBit</span>?
               </h2>
               <p className="text-slate-500 text-base leading-relaxed">
-                16 questions across sleep, screen time, diet, and activity.
-                No health lecture — just find out what kind of era you&apos;re in.
+                Your HagBit is a snapshot of your real habits — sleep, screens, food, and movement — reflected back as something actually true about you.
               </p>
             </div>
             <Link
               href="/quiz"
               className="inline-block w-full bg-violet-500 hover:bg-violet-600 active:scale-95 text-white font-bold text-lg py-4 rounded-2xl shadow-md shadow-violet-200 transition-all duration-150"
             >
-              Find out your vibe →
+              Find your HagBit →
             </Link>
           </div>
 
           <div
-            className="flex justify-center gap-6 text-sm text-slate-400 animate-fade-in-up"
+            className="flex justify-center text-sm text-slate-400 animate-fade-in-up"
             style={{ animationDelay: '700ms' }}
           >
-            <span>✦ 16 questions</span>
-            <span>✦ ~2 min</span>
-            <span>✦ No sign up</span>
+            <span className="bullet-star">Four categories</span>
+            <span className="bullet-star">Four questions each</span>
+            <span className="bullet-star">For free</span>
+            <span className="bullet-star">For real</span>
           </div>
 
           <p className="text-xs text-slate-400">
@@ -181,7 +181,7 @@ export default function Home() {
               Privacy Policy
             </Link>
             {' · '}
-            <span>© {new Date().getFullYear()} Dan Hagman</span>
+            <span>© {new Date().getFullYear()} Hags</span>
           </p>
 
         </div>

@@ -19,30 +19,35 @@ interface RankingCardProps {
 
 const categoryColors: Record<string, {
   pool: string;
+  poolSelected: string;
   ranked: string;
   number: string;
   remove: string;
 }> = {
   sleep: {
     pool: 'bg-indigo-50 border-indigo-200 text-indigo-800 hover:bg-indigo-100 hover:border-indigo-400 active:scale-95',
+    poolSelected: 'bg-indigo-100 border-indigo-200 text-indigo-800 opacity-40 scale-[0.95] shadow-inner',
     ranked: 'bg-white border-indigo-200 text-indigo-900',
     number: 'bg-indigo-500 text-white',
     remove: 'hover:bg-indigo-100 text-indigo-300 hover:text-indigo-600',
   },
   screen: {
     pool: 'bg-sky-50 border-sky-200 text-sky-800 hover:bg-sky-100 hover:border-sky-400 active:scale-95',
+    poolSelected: 'bg-sky-100 border-sky-200 text-sky-800 opacity-40 scale-[0.95] shadow-inner',
     ranked: 'bg-white border-sky-200 text-sky-900',
     number: 'bg-sky-500 text-white',
     remove: 'hover:bg-sky-100 text-sky-300 hover:text-sky-600',
   },
   diet: {
     pool: 'bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100 hover:border-emerald-400 active:scale-95',
+    poolSelected: 'bg-emerald-100 border-emerald-200 text-emerald-800 opacity-40 scale-[0.95] shadow-inner',
     ranked: 'bg-white border-emerald-200 text-emerald-900',
     number: 'bg-emerald-500 text-white',
     remove: 'hover:bg-emerald-100 text-emerald-300 hover:text-emerald-600',
   },
   activity: {
     pool: 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-100 hover:border-orange-400 active:scale-95',
+    poolSelected: 'bg-orange-100 border-orange-200 text-orange-800 opacity-40 scale-[0.95] shadow-inner',
     ranked: 'bg-white border-orange-200 text-orange-900',
     number: 'bg-orange-500 text-white',
     remove: 'hover:bg-orange-100 text-orange-300 hover:text-orange-600',
@@ -54,18 +59,20 @@ export default function RankingCard({ question, onComplete }: RankingCardProps) 
   // Each entry carries its originalIndex so scoring is unaffected by display order.
   const withIndices = question.options.map((opt, originalIndex) => ({ ...opt, originalIndex }));
   const [shuffled, setShuffled] = useState(withIndices);
-  useEffect(() => { setShuffled(shuffle(withIndices)); }, []);
+  useEffect(() => {
+    const last = withIndices[withIndices.length - 1];
+    const rest = withIndices.slice(0, -1);
+    setShuffled([...shuffle(rest), last]);
+  }, []);
 
   const [ranked, setRanked] = useState<number[]>([]); // indices into `shuffled`
   const rankCount = question.rankCount ?? question.options.length;
   const colors = categoryColors[question.category] ?? categoryColors.sleep;
 
-  const unranked = shuffled
-    .map((_, i) => i)
-    .filter((i) => !ranked.includes(i));
-
-  function addToRanking(i: number) {
-    if (ranked.length < rankCount) {
+  function toggleOption(i: number) {
+    if (ranked.includes(i)) {
+      setRanked(ranked.filter((r) => r !== i));
+    } else if (ranked.length < rankCount) {
       setRanked([...ranked, i]);
     }
   }
@@ -122,24 +129,25 @@ export default function RankingCard({ question, onComplete }: RankingCardProps) 
       </div>
 
       {/* Pool */}
-      {!isFull && (
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
-            Tap to add
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {unranked.map((i) => (
+      <div className="flex flex-col gap-2">
+        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+          Tap to rank
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {shuffled.map((_, i) => {
+            const isSelected = ranked.includes(i);
+            return (
               <button
                 key={i}
-                onClick={() => addToRanking(i)}
-                className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition-all cursor-pointer ${colors.pool}`}
+                onClick={() => toggleOption(i)}
+                className={`rounded-xl border-2 px-3 py-2 text-sm font-medium transition-all cursor-pointer ${isSelected ? colors.poolSelected : colors.pool}`}
               >
                 {shuffled[i].label}
               </button>
-            ))}
-          </div>
+            );
+          })}
         </div>
-      )}
+      </div>
 
       {/* Continue */}
       {isFull && (
