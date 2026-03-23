@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { db } from '@/lib/firebase-admin';
 import ArchetypeCard from '@/components/ArchetypeCard';
 import ScoreBar from '@/components/ScoreBar';
+import RadarChart from '@/components/RadarChart';
+import WaffleGrid from '@/components/WaffleGrid';
+import ArchetypeConstellation from '@/components/ArchetypeConstellation';
 import { getCategoryTips, getPillarInsights, CategoryScores, ArchetypeKey } from '@/lib/scoring';
 import { categoryLabels } from '@/lib/questions';
 
@@ -73,12 +76,10 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
 
           {/* Col 3 (xl) / appended to col 2 (lg): breakdown + buttons */}
           <div className="space-y-6 lg:col-start-2 xl:col-start-3">
-            {/* Score breakdown */}
-            <div className="bg-white rounded-3xl shadow-sm p-6 space-y-5">
-              <h2 className="font-semibold text-slate-800 text-lg">Your breakdown</h2>
-              {scoreRows.map(({ key, label, score }) => (
-                <ScoreBar key={key} category={label} score={score} />
-              ))}
+            {/* Score breakdown — radar */}
+            <div className="bg-white rounded-3xl shadow-sm p-6">
+              <h2 className="font-semibold text-slate-800 text-lg mb-1">Your shape</h2>
+              <RadarChart scores={scores} />
             </div>
 
             {/* Retake / share */}
@@ -98,6 +99,18 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
             </div>
           </div>
 
+        </div>
+
+        {/* Visual breakdown: waffle + constellation */}
+        <div className="mt-6 grid md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-3xl shadow-sm p-6">
+            <h2 className="font-semibold text-slate-800 text-lg mb-4">Score grid</h2>
+            <WaffleGrid scores={scores} />
+          </div>
+          <div className="bg-white rounded-3xl shadow-sm p-6">
+            <h2 className="font-semibold text-slate-800 text-lg mb-2">Archetype map</h2>
+            <ArchetypeConstellation archetypeRanked={archetypeRanked} scores={scores} />
+          </div>
         </div>
 
         {/* Pillar grid */}
