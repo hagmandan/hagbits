@@ -14,7 +14,7 @@ export default function PrivacyPage() {
             ← Back to Hagbits
           </Link>
           <h1 className="text-3xl font-bold text-slate-800">Privacy Policy</h1>
-          <p className="text-slate-400 text-sm">Last updated: March 2025</p>
+          <p className="text-slate-400 text-sm">Last updated: March 2026</p>
         </div>
 
         <section className="space-y-3">
@@ -57,12 +57,12 @@ export default function PrivacyPage() {
         <section className="space-y-3">
           <h2 className="text-lg font-semibold text-slate-700">Data storage</h2>
           <p className="text-slate-600 leading-relaxed">
-            Data is stored in a PostgreSQL database hosted by{' '}
-            <a href="https://neon.tech" className="text-violet-500 underline underline-offset-2">
-              Neon
+            Data is stored in{' '}
+            <a href="https://firebase.google.com/products/firestore" className="text-violet-500 underline underline-offset-2">
+              Firebase Firestore
             </a>
-            . Neon is SOC 2 Type 2 certified and stores data in the US (AWS us-east-1) by default.
-            We do not share data with any third party analytics or advertising services.
+            {' '}(Google Cloud), a SOC 2 certified NoSQL document database. Data is stored in the
+            US by default. We do not share data with any third-party analytics or advertising services.
           </p>
         </section>
 

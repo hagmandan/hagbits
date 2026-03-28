@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { db } from '@/lib/firebase-admin';
 import ArchetypeCard from '@/components/ArchetypeCard';
@@ -6,20 +7,43 @@ import ScoreBar from '@/components/ScoreBar';
 import RadarChart from '@/components/RadarChart';
 import WaffleGrid from '@/components/WaffleGrid';
 import ArchetypeConstellation from '@/components/ArchetypeConstellation';
-import { getCategoryTips, getPillarInsights, CategoryScores, ArchetypeKey } from '@/lib/scoring';
-import { categoryLabels } from '@/lib/questions';
+import ArchetypeDistances from '@/components/ArchetypeDistances';
+import QuestionBreakdown from '@/components/QuestionBreakdown';
+import GlowUpSimulator from '@/components/GlowUpSimulator';
+import ShareButton from '@/components/ShareButton';
+import {
+  getCategoryTips,
+  getPillarInsights,
+  getArchetypeDistances,
+  computePerQuestionScores,
+  getArchetypeResult,
+  CategoryScores,
+  ArchetypeKey,
+} from '@/lib/scoring';
+import { categoryLabels, questions } from '@/lib/questions';
 
 interface ResultRow {
   id: string;
   uid: string;
   created_at: unknown;
-  answers: Record<string, number>;
+  answers: Record<string, number | number[]>;
   sleep_score: number;
   screen_score: number;
   diet_score: number;
   activity_score: number;
   total_score: number;
   archetype_ranked: string; // JSON array of 3 ArchetypeKey strings
+}
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ id: string }> }
+): Promise<Metadata> {
+  const { id } = await params;
+  return {
+    openGraph: {
+      images: [`/api/og/${id}`],
+    },
+  };
 }
 
 export default async function ResultsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -40,6 +64,9 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
   const archetypeRanked = JSON.parse(result.archetype_ranked) as [ArchetypeKey, ArchetypeKey, ArchetypeKey];
   const tips = getCategoryTips(scores);
   const pillars = getPillarInsights(scores);
+  const distances = getArchetypeDistances(scores.sleep_score, scores.screen_score, scores.diet_score, scores.activity_score);
+  const questionScores = computePerQuestionScores(result.answers);
+  const { comboLabel } = getArchetypeResult(archetypeRanked);
 
   const scoreRows = [
     { key: 'sleep', label: categoryLabels.sleep, score: result.sleep_score },
@@ -90,12 +117,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
               >
                 Retake quiz
               </Link>
-              <Link
-                href="/"
-                className="flex-1 text-center bg-white hover:bg-slate-50 text-slate-700 font-semibold py-3.5 rounded-2xl border border-slate-200 transition-colors"
-              >
-                Share with a friend →
-              </Link>
+              <ShareButton resultId={id} comboLabel={comboLabel} />
             </div>
           </div>
 
@@ -113,6 +135,12 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
 
+        {/* Archetype distances */}
+        <div className="mt-6 bg-white rounded-3xl shadow-sm p-6">
+          <h2 className="font-semibold text-slate-800 text-lg mb-4">Your archetype matches</h2>
+          <ArchetypeDistances distances={distances} />
+        </div>
+
         {/* Pillar grid */}
         <div className="mt-6 grid grid-cols-2 gap-4">
           {pillars.map((p) => (
@@ -127,6 +155,16 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
               <p className="text-slate-500 text-sm leading-relaxed">{p.insight}</p>
             </div>
           ))}
+        </div>
+
+        {/* Glow-up simulator */}
+        <div className="mt-6">
+          <GlowUpSimulator initialScores={scores} initialRanked={archetypeRanked} />
+        </div>
+
+        {/* Question breakdown */}
+        <div className="mt-4">
+          <QuestionBreakdown questionScores={questionScores} questions={questions} />
         </div>
 
       </div>

@@ -32,7 +32,7 @@ test('quiz walk-through (mocked API)', async ({ page }) => {
 });
 
 test('full end-to-end with real DB', async ({ page }) => {
-  test.skip(!process.env.DATABASE_URL, 'requires DATABASE_URL');
+  test.skip(!process.env.FB_PROJECT_ID, 'requires Firebase credentials');
 
   await page.goto('/quiz');
   await walkThroughQuiz(page);

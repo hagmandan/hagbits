@@ -152,24 +152,39 @@ function stdDev(vals: number[]): number {
   return Math.sqrt(vals.reduce((s, v) => s + (v - mean) ** 2, 0) / vals.length);
 }
 
+export interface ArchetypeDistance {
+  key: ArchetypeKey;
+  pct: number; // 0–100, higher = closer match
+}
+
+export function getArchetypeDistances(
+  sleep: number,
+  screen: number,
+  diet: number,
+  activity: number
+): ArchetypeDistance[] {
+  const user = [sleep, screen, diet, activity].map(s => s / 12);
+  const variance = stdDev(user);
+  const maxDist = Math.sqrt(4); // diagonal of 4D unit hypercube
+
+  return (Object.keys(CENTROIDS) as ArchetypeKey[])
+    .map(key => {
+      let dist = euclidean(user, CENTROIDS[key]);
+      if (key === 'chaotic_functional') dist -= variance * 0.5;
+      const pct = Math.max(0, Math.min(100, Math.round((1 - dist / maxDist) * 100)));
+      return { key, dist, pct };
+    })
+    .sort((a, b) => a.dist - b.dist)
+    .map(({ key, pct }) => ({ key, pct }));
+}
+
 export function rankArchetypes(
   sleep: number,
   screen: number,
   diet: number,
   activity: number
 ): ArchetypeKey[] {
-  const user = [sleep, screen, diet, activity].map(s => s / 12);
-  const variance = stdDev(user);
-
-  return (Object.keys(CENTROIDS) as ArchetypeKey[])
-    .map(key => {
-      let dist = euclidean(user, CENTROIDS[key]);
-      // chaotic_functional gets a bonus for high-variance profiles
-      if (key === 'chaotic_functional') dist -= variance * 0.5;
-      return { key, dist };
-    })
-    .sort((a, b) => a.dist - b.dist)
-    .map(x => x.key);
+  return getArchetypeDistances(sleep, screen, diet, activity).map(d => d.key);
 }
 
 // ---------------------------------------------------------------------------
@@ -261,6 +276,23 @@ export function computeRankedScore(selectedIndices: number[], question: Question
     weightedSum += optionScore * weight;
   });
   return Math.min(3, Math.max(0, Math.round((weightedSum / maxPossible) * 3)));
+}
+
+export interface QuestionScore {
+  id: string;
+  category: Category;
+  score: number; // 0–3
+  rawAnswer: number | number[];
+}
+
+export function computePerQuestionScores(answers: Answers): QuestionScore[] {
+  return questions.map(question => {
+    const rawAnswer = answers[question.id];
+    const score = question.type === 'ranked'
+      ? Array.isArray(rawAnswer) ? computeRankedScore(rawAnswer, question) : 0
+      : typeof rawAnswer === 'number' ? rawAnswer : 0;
+    return { id: question.id, category: question.category, score, rawAnswer: rawAnswer ?? 0 };
+  });
 }
 
 export function computeScores(answers: Answers): ScoreResult {
