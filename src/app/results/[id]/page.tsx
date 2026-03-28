@@ -159,7 +159,12 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
 
         {/* Glow-up simulator */}
         <div className="mt-6">
-          <GlowUpSimulator initialScores={scores} initialRanked={archetypeRanked} />
+          <GlowUpSimulator
+            initialScores={scores}
+            initialRanked={archetypeRanked}
+            questionScores={questionScores}
+            resultId={id}
+          />
         </div>
 
         {/* Question breakdown */}

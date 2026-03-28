@@ -251,6 +251,18 @@ export function getArchetypeInfo(key: ArchetypeKey): ArchetypeInfo {
   return ARCHETYPE_INFO[key];
 }
 
+export const ARCHETYPE_KEYS: ArchetypeKey[] = Object.keys(ARCHETYPE_INFO) as ArchetypeKey[];
+
+export function getArchetypeCentroidScores(key: ArchetypeKey): CategoryScores {
+  const [s, sc, d, a] = CENTROIDS[key];
+  return {
+    sleep_score: Math.round(s * 12),
+    screen_score: Math.round(sc * 12),
+    diet_score: Math.round(d * 12),
+    activity_score: Math.round(a * 12),
+  };
+}
+
 export function getArchetypeResult(ranked: ArchetypeKey[]): ArchetypeResult {
   const top3 = ranked.slice(0, 3) as [ArchetypeKey, ArchetypeKey, ArchetypeKey];
   const comboKey = [top3[0], top3[1]].sort().join('+');
