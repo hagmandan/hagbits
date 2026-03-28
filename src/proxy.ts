@@ -9,9 +9,9 @@ export function proxy(_request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/(wp-.*)',        // /wp-admin/*, /wp-login.php, etc.
-    '/(wordpress/.*)', // /wordpress/wp-admin/*, etc.
-    '/(.*\\.php)',     // any .php file at any depth
-    '/(\\.env.*)',     // /.env, /.env.local, etc.
+    '/(.*wp-.*)',       // /wp-*, /blog/wp-includes/*, /2020/wp-admin/*, etc.
+    '/(.*wordpress.*)', // /wordpress/*, /web/wordpress/*, etc.
+    '/(.*\\.php)',      // any .php file at any depth
+    '/(\\.env.*)',      // /.env, /.env.local, etc.
   ],
 };
