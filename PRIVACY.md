@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last updated:** March 2025
+**Last updated:** March 2026
 
 ## What is Hagbits?
 
@@ -23,7 +23,7 @@ Quiz responses are used solely to generate and display your results page. Anonym
 
 ## Data storage
 
-Data is stored in a PostgreSQL database hosted by [Neon](https://neon.tech) (SOC 2 Type 2 certified, US-East region). We do not share data with third-party analytics or advertising services.
+Data is stored in [Firebase Firestore](https://firebase.google.com/products/firestore) (Google Cloud), a SOC 2 certified NoSQL document database. Data is stored in the US by default. We do not share data with third-party analytics or advertising services.
 
 ## Children's privacy
 
