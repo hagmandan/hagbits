@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
 import { FieldValue } from 'firebase-admin/firestore';
-import { computeScores } from '@/lib/scoring';
+import { computeScores, computePerQuestionScores, getArchetypeDistances } from '@/lib/scoring';
 import { Answers } from '@/lib/questions';
 
 export async function POST(req: NextRequest) {
@@ -15,10 +15,17 @@ export async function POST(req: NextRequest) {
     }
 
     const scores = computeScores(answers);
+    const questionScores = computePerQuestionScores(answers);
+    const archetypeDistances = getArchetypeDistances(
+      scores.sleep_score, scores.screen_score, scores.diet_score, scores.activity_score
+    );
 
     const ref = await db.collection('quiz_responses').add({
       answers,
       ...scores,
+      question_scores: Object.fromEntries(questionScores.map(q => [q.id, q.score])),
+      archetype_distances: Object.fromEntries(archetypeDistances.map(a => [a.key, a.pct])),
+      archetype_all_ranked: JSON.stringify(archetypeDistances.map(a => a.key)),
       uid,
       created_at: FieldValue.serverTimestamp(),
     });

@@ -35,8 +35,7 @@ At the end you get a personalised **vibe result**: a personality label (e.g. *Th
 
 - [Next.js](https://nextjs.org) (App Router, server components)
 - [Tailwind CSS v4](https://tailwindcss.com)
-- [Neon](https://neon.tech) — serverless PostgreSQL
-- [Playwright](https://playwright.dev) — end-to-end tests
+- [Firebase](https://firebase.google.com) — Firestore (NoSQL document store) + App Hosting
 
 ---
 
@@ -46,9 +45,10 @@ At the end you get a personalised **vibe result**: a personality label (e.g. *Th
 # Install dependencies
 yarn install
 
-# Set up your database URL
+# Set up Firebase credentials
 cp .env.example .env.local
-# Add DATABASE_URL=<your Neon connection string>
+# Add FB_PROJECT_ID, FB_CLIENT_EMAIL, FB_PRIVATE_KEY,
+# NEXT_PUBLIC_FIREBASE_API_KEY, NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
 
 # Start the dev server
 yarn dev        # http://localhost:3000
@@ -60,16 +60,6 @@ yarn dev-https  # HTTPS variant
 ```bash
 yarn build
 yarn lint
-```
-
-### Tests
-
-```bash
-# Run Playwright e2e suite (screenshots saved to test-results/)
-npx playwright test
-
-# With a real DB (requires DATABASE_URL)
-DATABASE_URL=<url> npx playwright test
 ```
 
 ---
@@ -91,7 +81,7 @@ src/
   lib/
     questions.ts          # All 16 questions, options, scores
     scoring.ts            # Score computation & personality mapping
-    db.ts                 # Neon SQL client
+    firebase-admin.ts     # Firebase Admin SDK / Firestore client
 ```
 
 ---

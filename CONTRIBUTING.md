@@ -13,7 +13,7 @@ Thanks for your interest! Hagbits is a personal project, but thoughtful contribu
 git clone https://github.com/hagmandan/hagbits.git
 cd hagbits
 yarn install
-cp .env.example .env.local   # add your DATABASE_URL
+cp .env.example .env.local   # add your Firebase credentials
 yarn dev
 ```
 

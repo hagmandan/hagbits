@@ -1,7 +1,7 @@
 {
   "name": "hagbits",
   "version": "0.1.0",
-  "description": "A habit check quiz app for teens built with Next.js, Neon, and Tailwind",
+  "description": "A habit check quiz app for teens built with Next.js, Firebase, and Tailwind",
   "author": "Dan Hagman <hagman.dan@gmail.com>",
   "license": "MIT",
   "private": true,
